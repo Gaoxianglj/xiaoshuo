@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+._*
+
+# Microsoft Office temp files
+~$*.docx
+~$*.doc
+~$*.xlsx
+~$*.pptx
+*.tmp
+
+# Editor
+*.swp
+*.swo
+*~
