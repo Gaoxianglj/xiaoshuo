@@ -1,6 +1,3 @@
-# Exclude novel-project (separate workspace)
-novel-project/
-
 # macOS
 .DS_Store
 ._*
