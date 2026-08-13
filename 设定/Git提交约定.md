@@ -26,4 +26,6 @@
 
 ## 5. 推送
 
-- 默认只做本地提交。是否 `git push` 到 `origin/deepseek_harness_PC` 由作者另行指示，不得擅自推送。
+- 作者于 2026-08-13 确认：**每次提交后自动推送到远端**，目标为 `origin/deepseek_harness_PC`。
+- 每轮任务收尾时：本地提交 → `git push origin deepseek_harness_PC`。若推送失败（网络、凭据、冲突等），在回复中明确报告失败原因，不得静默跳过。
+- `main` 仍由作者本人处理，不提交、不推送。
