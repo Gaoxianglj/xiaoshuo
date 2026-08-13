@@ -5,16 +5,20 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt
 
+from docx_fangsong import FONT_NAME, embed_fangsong_docx
+
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "正文" / "第二章_唯一的友人.docx"
-MARKDOWN = ROOT / "正文" / "第二章_唯一的友人_重写版.md"
-OUTPUT = ROOT / "正文" / "第二章_唯一的友人_重写版.docx"
+SOURCE = ROOT / "正文" / "学院魔女_第一章_学院的新生.docx"
+MARKDOWN = ROOT / "正文" / "正文MD" / "学院魔女_第二章_唯一的友人.md"
+OUTPUT = ROOT / "正文" / "学院魔女_第二章_唯一的友人.docx"
 
 
 def set_font(run, size=12, bold=False):
-    run.font.name = "Songti SC"
-    run._element.get_or_add_rPr().rFonts.set(qn("w:eastAsia"), "Songti SC")
+    run.font.name = FONT_NAME
+    fonts = run._element.get_or_add_rPr().get_or_add_rFonts()
+    for field in ("ascii", "hAnsi", "eastAsia", "cs"):
+        fonts.set(qn(f"w:{field}"), FONT_NAME)
     run.font.size = Pt(size)
     run.bold = bold
 
@@ -26,8 +30,9 @@ for child in list(body):
         body.remove(child)
 
 normal = doc.styles["Normal"]
-normal.font.name = "Songti SC"
-normal._element.get_or_add_rPr().rFonts.set(qn("w:eastAsia"), "Songti SC")
+normal.font.name = FONT_NAME
+for field in ("ascii", "hAnsi", "eastAsia", "cs"):
+    normal._element.get_or_add_rPr().rFonts.set(qn(f"w:{field}"), FONT_NAME)
 normal.font.size = Pt(12)
 
 for section in doc.sections:
@@ -64,4 +69,5 @@ for raw in lines:
         set_font(run, size=12, bold=False)
 
 doc.save(OUTPUT)
+embed_fangsong_docx(OUTPUT)
 print(OUTPUT)

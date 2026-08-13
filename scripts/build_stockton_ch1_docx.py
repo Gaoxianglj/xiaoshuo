@@ -7,13 +7,15 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
+from docx_fangsong import FONT_NAME, embed_fangsong_docx
+
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "正文" / "第一章_在那森林与湖之地_重写版.md"
-OUTPUT = ROOT / "正文" / "第一章_在那森林与湖之地_重写版.docx"
+SOURCE = ROOT / "正文" / "正文MD" / "第一章_在那森林与湖之地_重写版.md"
+OUTPUT = ROOT / "正文" / "第一章_在那森林与湖之地.docx"
 
 
-def set_run_font(run, east_asia="Noto Sans CJK SC", latin="Noto Sans CJK SC", size=11, bold=False):
+def set_run_font(run, east_asia=FONT_NAME, latin=FONT_NAME, size=11, bold=False):
     run.font.name = latin
     run.font.size = Pt(size)
     run.font.bold = bold
@@ -66,11 +68,12 @@ def configure_document(doc):
     section.footer_distance = Inches(0.492)
 
     normal = doc.styles["Normal"]
-    normal.font.name = "Noto Sans CJK SC"
+    normal.font.name = FONT_NAME
     normal.font.size = Pt(11)
-    normal._element.rPr.rFonts.set(qn("w:ascii"), "Noto Sans CJK SC")
-    normal._element.rPr.rFonts.set(qn("w:hAnsi"), "Noto Sans CJK SC")
-    normal._element.rPr.rFonts.set(qn("w:eastAsia"), "Noto Sans CJK SC")
+    normal._element.rPr.rFonts.set(qn("w:ascii"), FONT_NAME)
+    normal._element.rPr.rFonts.set(qn("w:hAnsi"), FONT_NAME)
+    normal._element.rPr.rFonts.set(qn("w:eastAsia"), FONT_NAME)
+    normal._element.rPr.rFonts.set(qn("w:cs"), FONT_NAME)
     pf = normal.paragraph_format
     pf.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     pf.space_before = Pt(0)
@@ -152,6 +155,7 @@ def build():
             add_body(doc, stripped)
 
     doc.save(OUTPUT)
+    embed_fangsong_docx(OUTPUT)
     print(OUTPUT)
 
 

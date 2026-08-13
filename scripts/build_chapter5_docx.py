@@ -1,17 +1,17 @@
 from copy import deepcopy
 from pathlib import Path
-import hashlib
 import re
 
 from docx import Document
 from docx.shared import Pt
 
+from docx_fangsong import embed_fangsong_docx
+
 
 ROOT = Path(__file__).resolve().parents[1]
-REFERENCE = ROOT / "正文" / "第四章_背叛_重写版.docx"
-SOURCE = ROOT / "正文" / "第五章_崩毁_重写版.md"
-OUTPUT = ROOT / "正文" / "第五章_崩毁_重写版.docx"
-REFERENCE_SHA256 = "f62b4e81058aacbc753d1b382959d40d3adb218db889c1cf11f4133c0d73ec23"
+REFERENCE = ROOT / "正文" / "学院魔女_第四章_背叛.docx"
+SOURCE = ROOT / "正文" / "正文MD" / "学院魔女_第五章_崩毁.md"
+OUTPUT = ROOT / "正文" / "学院魔女_第五章_崩毁.docx"
 SECTION_RE = re.compile(r"^（[一二三四五六七八九十]+）$")
 
 
@@ -38,10 +38,6 @@ def add_from_template(document, text, paragraph_template, run_template):
 
 
 def main():
-    digest = hashlib.sha256(REFERENCE.read_bytes()).hexdigest()
-    if digest != REFERENCE_SHA256:
-        raise RuntimeError("Reference DOCX changed; distill the template again.")
-
     document = Document(REFERENCE)
     title_template = document.paragraphs[0]
     section_template = document.paragraphs[1]
@@ -75,6 +71,7 @@ def main():
         paragraph.paragraph_format.space_after = Pt(0)
 
     document.save(OUTPUT)
+    embed_fangsong_docx(OUTPUT)
     print(OUTPUT)
 
 

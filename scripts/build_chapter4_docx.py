@@ -1,15 +1,15 @@
 from copy import deepcopy
 from pathlib import Path
-import hashlib
 
 from docx import Document
 
+from docx_fangsong import embed_fangsong_docx
+
 
 ROOT = Path(__file__).resolve().parents[1]
-REFERENCE = ROOT / "正文" / "第三章_决斗与暗流_重写版.docx"
-SOURCE = ROOT / "正文" / "第四章_背叛_重写版.md"
-OUTPUT = ROOT / "正文" / "第四章_背叛_重写版.docx"
-REFERENCE_SHA256 = "e20a5d1ab86d0a53da3b565636eb2f677a1cbefad0e6a94801f5b42fc1a7de06"
+REFERENCE = ROOT / "正文" / "学院魔女_第三章_决斗与暗流.docx"
+SOURCE = ROOT / "正文" / "正文MD" / "学院魔女_第四章_背叛.md"
+OUTPUT = ROOT / "正文" / "学院魔女_第四章_背叛.docx"
 
 
 def clone_paragraph_format(source, target):
@@ -35,10 +35,6 @@ def add_from_template(document, text, paragraph_template, run_template):
 
 
 def main():
-    digest = hashlib.sha256(REFERENCE.read_bytes()).hexdigest()
-    if digest != REFERENCE_SHA256:
-        raise RuntimeError("Reference DOCX changed; distill the template again.")
-
     document = Document(REFERENCE)
     title_template = document.paragraphs[0]
     section_template = document.paragraphs[1]
@@ -65,6 +61,7 @@ def main():
             add_from_template(document, stripped, body_template, body_run)
 
     document.save(OUTPUT)
+    embed_fangsong_docx(OUTPUT)
     print(OUTPUT)
 
 
