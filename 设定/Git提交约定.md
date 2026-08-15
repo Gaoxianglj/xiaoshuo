@@ -10,9 +10,9 @@
 
 ## 2. 分支规则
 
-- 默认提交分支：`deepseek_harness_PC`（当前工作分支）。
-- **严禁提交到 `main` 分支**。`main` 只由作者本人处理合并与推送。
-- 提交前先 `git branch` 确认所在分支不是 `main`；若误在 `main`，先切回工作分支再提交，不得在 `main` 上产生提交。
+- 默认提交分支：`deepseek_harness_MAC`（当前工作分支）。
+- **严禁提交到 `main` 和 `deepseek_harness_PC` 分支**。`main` 与 `deepseek_harness_PC` 只由作者本人处理合并与推送。
+- 提交前先 `git branch` 确认所在分支是 `deepseek_harness_MAC`，且不是 `main` 或 `deepseek_harness_PC`；若误在其他分支，先切回 `deepseek_harness_MAC` 再提交，不得在 `main` 或 `deepseek_harness_PC` 上产生提交。
 
 ## 3. 提交信息
 
@@ -26,6 +26,6 @@
 
 ## 5. 推送
 
-- 作者于 2026-08-13 确认：**每次提交后自动推送到远端**，目标为 `origin/deepseek_harness_PC`。
-- 每轮任务收尾时：本地提交 → `git push origin deepseek_harness_PC`。若推送失败（网络、凭据、冲突等），在回复中明确报告失败原因，不得静默跳过。
-- `main` 仍由作者本人处理，不提交、不推送。
+- 作者于 2026-08-13 确认：**每次提交后自动推送到远端**，目标为 `origin/deepseek_harness_MAC`。
+- 每轮任务收尾时：本地提交 → `git push origin deepseek_harness_MAC`。若推送失败（网络、凭据、冲突等），在回复中明确报告失败原因，不得静默跳过。
+- `main` 与 `deepseek_harness_PC` 仍由作者本人处理，不提交、不推送。
