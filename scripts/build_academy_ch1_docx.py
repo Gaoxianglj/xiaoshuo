@@ -11,8 +11,9 @@ from docx_fangsong import FONT_NAME, embed_fangsong_docx
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "正文" / "正文MD" / "学院魔女_第一章_学院的新生.md"
-OUTPUT = ROOT / "正文" / "学院魔女_第一章_学院的新生.docx"
+SOURCE = ROOT / "正文" / "正文MD" / "学院魔女_第一章_我自远方而来.md"
+OUTPUT = ROOT / "正文" / "学院魔女_第一章_我自远方而来.docx"
+TITLE = "第一章 我自远方而来"
 
 
 def set_run_font(run, east_asia=FONT_NAME, latin=FONT_NAME, size=11, bold=False):
@@ -93,6 +94,19 @@ def add_title(doc, text):
     set_run_font(run, size=18, bold=True)
 
 
+def add_epigraph(doc, text):
+    paragraph = doc.add_paragraph()
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    paragraph.paragraph_format.left_indent = Inches(0.55)
+    paragraph.paragraph_format.right_indent = Inches(0.55)
+    paragraph.paragraph_format.space_after = Pt(18)
+    paragraph.paragraph_format.line_spacing = 1.25
+    paragraph.paragraph_format.keep_with_next = True
+    run = paragraph.add_run(text)
+    set_run_font(run, size=10.5)
+    run.font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+
+
 def add_section_heading(doc, text):
     paragraph = doc.add_paragraph()
     paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -115,27 +129,29 @@ def add_body(doc, text):
     set_run_font(run, size=11)
 
 
-def build():
+def build(source=SOURCE, output=OUTPUT, title=TITLE):
     doc = Document()
     configure_document(doc)
-    doc.core_properties.title = "第一章 学院的新生"
+    doc.core_properties.title = title
     doc.core_properties.subject = "《学院魔女》学院篇正文"
     doc.core_properties.author = ""
 
-    for line in SOURCE.read_text(encoding="utf-8").splitlines():
+    for line in source.read_text(encoding="utf-8").splitlines():
         stripped = line.strip()
         if not stripped:
             continue
         if stripped.startswith("# "):
             add_title(doc, stripped[2:].strip())
+        elif stripped.startswith("> "):
+            add_epigraph(doc, stripped[2:].strip())
         elif stripped.startswith("## "):
             add_section_heading(doc, stripped[3:].strip())
         else:
             add_body(doc, stripped)
 
-    doc.save(OUTPUT)
-    embed_fangsong_docx(OUTPUT)
-    print(OUTPUT)
+    doc.save(output)
+    embed_fangsong_docx(output)
+    print(output)
 
 
 if __name__ == "__main__":
