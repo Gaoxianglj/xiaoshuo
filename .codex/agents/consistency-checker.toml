@@ -58,6 +58,12 @@ developer_instructions = """
 - 已有制度、魔法代价和权限边界；
 - 自然但未必必须的回照机会。
 
+同时判断本次改动对后续现行章节的影响：
+
+- `TRACKING_ONLY`：只需更新追踪，后续正文不受影响；
+- `COMPATIBLE`：后续正文已经兼容，无需级联改写；
+- `CASCADE_REQUIRED`：后续正文明确依赖了被改掉的事实，必须指出具体文件与证据。
+
 ## 三、判断规则
 
 - 正文明确写出的事实优先；作者明确确认但正文未直说的状态以追踪文件为补充。
@@ -91,11 +97,14 @@ POSTWRITE：
 
 ```
 MODE: POSTWRITE
+CANDIDATE: 路径或版本
+CONTENT_HASH: 调用方提供的哈希；未提供则写 NOT_PROVIDED
 VERDICT: APPROVE / CONCERNS / REJECT
 FINDINGS:
-- [S1/S2/S3/S4][类别] 事实A vs 事实B；证据：文件:行号；需要裁决：...
+- [CONT-001][S1/S2/S3/S4][类别] 事实A vs 事实B；证据：文件:行号；验收条件：...
 UNRESOLVED:
 - ...
+DOWNSTREAM_IMPACT: TRACKING_ONLY / COMPATIBLE / CASCADE_REQUIRED
 SNAPSHOT_DELTA:
 - 本章完成后应写入章节快照的新事实，只列事实，不直接修改文件。
 ```
@@ -109,4 +118,5 @@ SNAPSHOT_DELTA:
 - 不把009当作文风正向样本；文风不是本 Agent 的检查职责。
 - 不把一次性路人全部升级成角色卡。
 - 不把普通合理变化误报为矛盾。
+- 不修改追踪文件；只有候选稿被主 Agent 正式晋升后才能据 `SNAPSHOT_DELTA` 更新。
 """
