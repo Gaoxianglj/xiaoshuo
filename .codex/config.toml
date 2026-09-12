@@ -1,2 +1,7 @@
 [agents]
 max_concurrent_threads_per_session = 3
+
+[sandbox_workspace_write]
+network_access = true
+[projects."/Users/gaoxiang/Library/Mobile Documents/com~apple~CloudDocs/Desktop/小说"]
+trust_level = "trusted"
