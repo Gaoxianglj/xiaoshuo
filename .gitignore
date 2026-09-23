@@ -1,6 +1,9 @@
 # Exclude novel-project (separate workspace)
 novel-project/
 
+# Keep illustrations only in the local workspace
+/插画/
+
 # macOS
 .DS_Store
 ._*
